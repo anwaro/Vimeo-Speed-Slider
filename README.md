@@ -1,3 +1,15 @@
+# Vimeo Speed Slider
+
+## Feature
+
+- Set Player Speed
+- Remember Speed 
+
+## Script
+
+Link to script: [greasyfork](https://greasyfork.org/pl/scripts/25525-vimeo-speed-slider)
+
+
 ## The script works in:
 
 
@@ -10,10 +22,6 @@ or [Scriptish](https://addons.mozilla.org/pl/firefox/addon/scriptish/) first.)
 [Tampermonkey](https://addons.opera.com/pl/extensions/details/tampermonkey-beta/?display=en) first.)
 - **Safari** (install [Tampermonkey](https://tampermonkey.net/) first.)
 
-## Feature
-
-- Set Player Speed
-- Remember Speed
 
 ## Preview 
 ![Preview](https://raw.githubusercontent.com/anwaro/Vimeo-Speed-Slider/master/image/vimeo.png)
