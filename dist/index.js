@@ -96,7 +96,10 @@ vi.check = function (isCheck) {
         style:{
             height: '20px',
             margin: '8px 8px 0 0',
-            width: '20px'
+            width: '20px',
+            '-webkit-appearance': 'checkbox',
+            '-moz-appearance': 'checkbox',
+            'appearance': 'checkbox'
         },
         onchange: vi.remember
     });
@@ -128,7 +131,10 @@ vi.slider = function (initSpeed) {
         'step': 0.1,
         'value': initSpeed,
         style:{
-            'width': '100px'
+            'width': '100px',
+            '-webkit-appearance': 'slider-horizontal',
+            '-moz-appearance': 'slider-horizontal',
+            'appearance': 'slider-horizontal'
         },
         onchange : vi.change,
         oninput: vi.move,
