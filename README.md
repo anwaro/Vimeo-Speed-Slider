@@ -1,16 +1,16 @@
-# Vimeo Speed Slider
+## Vimeo Speed Slider
 
-## Feature
+### Feature
 
 - Set Player Speed
 - Remember Speed 
 
-## Script
+### Script
 
 Link to script: [greasyfork](https://greasyfork.org/pl/scripts/25525-vimeo-speed-slider)
 
 
-## The script works in:
+### The script works in:
 
 
 - **Firefox** (install [Greasemonkey](https://addons.mozilla.org/pl/firefox/addon/greasemonkey/) 
