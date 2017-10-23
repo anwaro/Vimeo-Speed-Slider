@@ -1,6 +1,7 @@
 var vi = {};
 vi.el ={};
 
+
 vi.init = function () {
     vi.el.menu = vi.$('.sidedock');
     if(vi.el.menu){
