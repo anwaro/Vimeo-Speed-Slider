@@ -1,7 +1,7 @@
 const header = `// ==UserScript==
 // @name         Vimeo Player Speed Slider
 // @namespace    vimeo_player_speed_slider
-// @version      0.2.1
+// @version      0.3.0
 // @description  Add Speed Slider to Vimeo Player Settings
 // @author       Łukasz
 // @include      https://*.vimeo.com/*
