@@ -1,0 +1,52 @@
+{
+    "compilerOptions": {
+        "target": "es2018",
+        "module": "commonjs",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "es6",
+            "es2015",
+            "es2016",
+            "es2017",
+            "es2018",
+            "esnext"
+        ],
+        "declaration": true,
+        "sourceMap": false,
+        "outDir": "./build",
+        "removeComments": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "allowJs": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "rootDirs": [
+            "./",
+            "./src"
+        ],
+        "typeRoots": [
+            "./types",
+            "./@types",
+            "node_modules/@types"
+        ],
+        "preserveConstEnums": true,
+        "forceConsistentCasingInFileNames": true,
+        "incremental": true
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/__tests__/*",
+        "coverage"
+    ]
+}
