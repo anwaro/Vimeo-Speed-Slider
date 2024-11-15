@@ -31,3 +31,4 @@ package-lock.json
 deploy.sh
 remote.sh
 .eslintcache
+dist/dev.js

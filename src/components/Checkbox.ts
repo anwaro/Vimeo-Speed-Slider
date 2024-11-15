@@ -1,28 +1,26 @@
 import Component from './Component';
 
-export class Checkbox extends Component<HTMLInputElement> {
+export class Checkbox extends Component<'input'> {
     constructor(checked: boolean) {
-        super(document.createElement('input'));
-
-        this.element.checked = checked;
-
-        this.setParams({
-            type: 'checkbox',
-            title: 'Remember speed',
-        });
-
-        this.setStyle({
-            'accent-color': 'var(--color-two)',
-            appearance: 'auto',
-            width: '16px',
-            height: '16px',
-            margin: '0',
-            padding: '0',
+        super('input', {
+            styles: {
+                accentColor: 'var(--color-two)',
+                appearance: 'auto',
+                width: '16px',
+                height: '16px',
+                margin: '0',
+                padding: '0',
+            },
+            attrs: {
+                type: 'checkbox',
+                title: 'Remember speed',
+                checked: checked,
+            },
         });
     }
 
-    getValue() {
-        return this.element.checked;
+    initEvents(onChange: (state: boolean) => void) {
+        this.event('change', () => onChange(this.element.checked));
     }
 
     setValue(checked: boolean) {

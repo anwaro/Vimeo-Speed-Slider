@@ -1,54 +1,63 @@
 import Component from './Component';
 
-export class Slider extends Component<HTMLInputElement> {
-    static MIN = 0.5;
-    static MAX = 4;
+export class Slider extends Component<'input'> {
+    static MIN_VALUE = 0.5;
+    static MAX_VALUE = 4;
 
-    constructor(speed: number) {
-        super(document.createElement('input'));
-
-        this.setParams({
-            type: 'range',
-            min: Slider.MIN,
-            max: Slider.MAX,
-            step: 0.05,
-            value: speed.toString(),
+    constructor() {
+        super('input', {
+            classes: 'vis-slider',
+            attrs: {
+                type: 'range',
+                min: Slider.MIN_VALUE,
+                max: Slider.MAX_VALUE,
+                step: 0.05,
+            },
+            styles: {
+                background: '#ffffff66',
+                width: 'calc(100% - 30px)',
+                height: '6px',
+                outline: 'none',
+                margin: '0 10px',
+                padding: '0',
+                borderRadius: '3px',
+            },
         });
 
-        this.setClassName('vis-slider');
+        // this.addStyle(`
+        //     .vis-slider {
+        //       -webkit-appearance: none;
+        //     }
+        //
+        //     .vis-slider::-webkit-slider-thumb {
+        //       -webkit-appearance: none;
+        //       appearance: none;
+        //       width: 10px;
+        //       height: 10px;
+        //       border-radius: 5px;
+        //       background: var(--color-two);
+        //       cursor: pointer;
+        //     }
+        //
+        //     .vis-slider::-moz-range-thumb {
+        //       width: 10px;
+        //       height: 10px;
+        //       border-radius: 5px;
+        //       background: var(--color-two);
+        //       cursor: pointer;
+        //     }`);
+    }
 
-        this.setStyle({
-            background: '#ffffff66',
-            width: 'calc(100% - 30px)',
-            height: '6px',
-            outline: 'none',
-            margin: '0 10px',
-            padding: '0',
-            'border-radius': '3px',
+    initEvents(onChange: (speed: number) => void) {
+        this.event('change', () => onChange(this.getSpeed()));
+        this.event('input', () => onChange(this.getSpeed()));
+        this.event('wheel', (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            const diff = event.deltaY > 0 ? -0.05 : 0.05;
+            onChange(this.getSpeed() + diff);
+            return false;
         });
-
-        this.addStyle(`
-            .vis-slider {
-              -webkit-appearance: none;
-            }
-            
-            .vis-slider::-webkit-slider-thumb {
-              -webkit-appearance: none;
-              appearance: none;
-              width: 10px;
-              height: 10px;
-              border-radius: 5px;
-              background: var(--color-two);
-              cursor: pointer;
-            }
-            
-            .vis-slider::-moz-range-thumb {
-              width: 10px;
-              height: 10px;
-              border-radius: 5px;
-              background: var(--color-two);
-              cursor: pointer;
-            }`);
     }
 
     setSpeed(speed: number) {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Vimeo Player Speed Slider
 // @namespace    vimeo_player_speed_slider
-// @version      0.3.0
+// @version      1.0.0
 // @description  Add Speed Slider to Vimeo Player Settings
 // @author       Łukasz
 // @include      https://*.vimeo.com/*
@@ -9,4 +9,559 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=vimeo.com
 // @grant        none
 // ==/UserScript==
-(()=>{"use strict";var e={953:(e,t,s)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.Checkbox=void 0;const n=s(807);class i extends n.default{constructor(e){super(document.createElement("input")),this.element.checked=e,this.setParams({type:"checkbox",title:"Remember speed"}),this.setStyle({"accent-color":"var(--color-two)",appearance:"auto",width:"16px",height:"16px",margin:"0",padding:"0"})}getValue(){return this.element.checked}setValue(e){this.element.checked=e}}t.Checkbox=i},807:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0});t.default=class{constructor(e){this.element=e}addStyle(e){const t="vis-style";(document.getElementById(t)||function(){const e=document.createElement("style");return e.id=t,document.head.appendChild(e),e}()).innerHTML+=e}setStyle(e){Object.entries(e).forEach((([e,t])=>{this.element.style.setProperty(e,`${t}`)}))}setParams(e){Object.entries(e).forEach((([e,t])=>{let s=`${t}`;void 0!==t&&!1!==t||(s=""),this.element.setAttribute(e,s)}))}setClassName(e){this.element.className=e}event(e,t){this.element.addEventListener(e,t)}getElement(){return this.element}}},693:(e,t,s)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.DockItem=void 0;const n=s(807),i=s(938);class r extends n.default{constructor(e,t){super(document.createElement("div")),this.label=document.createElement("label"),this.button=document.createElement("button"),this.speedLabel=document.createElement("span"),this.setParams({id:r.ID}),this.initLabel(),this.initButton(),this.label.appendChild(t),this.label.appendChild(e),this.label.appendChild(this.speedLabel),this.event("mouseenter",(()=>this.label.style.removeProperty("display"))),this.event("mouseleave",(()=>this.label.style.setProperty("display","none")))}initLabel(){this.label.style.setProperty("display","none"),this.element.appendChild(this.label)}initButton(){this.button.appendChild(this.getSvg()),this.element.appendChild(this.button)}getSvg(){const e=document.createElementNS("http://www.w3.org/2000/svg","svg");return e.setAttribute("height","20"),e.setAttribute("width","20"),e.setAttribute("viewBox","0 0 20 20"),e.appendChild(this.getPolygon()),e}getPolygon(){const e=document.createElementNS("http://www.w3.org/2000/svg","polygon");return e.setAttribute("fill","white"),e.setAttribute("points","2,1 2,19 11,10 11,19 20,10 11,1 11,10"),e}initClassNames(){if(""!==this.element.className)return;const e=i.Elements.dockItem();e&&this.setClassName(e.className);const t=i.Elements.dockItemButton();t&&(this.button.className=t.className,this.button.type=t.type);const s=i.Elements.dockItemLabel();s&&(this.label.className=s.className,this.label.role=s.role)}updateSpeed(e){this.speedLabel.innerText=e.toFixed(1)}mount(){if(this.initClassNames(),i.Elements.ref(`#${r.ID}`))return!0;const e=i.Elements.dock();return!!e&&(e.appendChild(this.element),!0)}}t.DockItem=r,r.ID="vis-dock-item"},938:(e,t,s)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.Elements=void 0;const n=s(176);class i{static ref(e){return document.querySelector(e)}static menu(){return i.ref('[data-menu="prefs"] [class^=Menu_module_menuPanel]')}static menuItem(){return i.ref('[data-menu="prefs"] [class^=Menu_module_menuPanel] [class^=MenuOption_module_option]')}static menuLabel(){var e;return null===(e=i.menuItem())||void 0===e?void 0:e.querySelector("span")}static menuSpeedItem(){return[...document.querySelectorAll('[data-menu="prefs"] [class^=MenuOption_module_option]')].find((e=>/Speed/.test(e.innerText)&&e.id!==n.MenuSpeedItem.ID))}static dock(){return i.ref(".vp-sidedock")}static dockItem(){return i.ref(".vp-sidedock>div")}static dockItemButton(){return i.ref(".vp-sidedock>div>button")}static dockItemLabel(){return i.ref(".vp-sidedock>div>label")}static video(){return i.ref(".vp-video video")}}t.Elements=i},176:(e,t,s)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.MenuSpeedItem=void 0;const n=s(807),i=s(938);class r extends n.default{constructor(e,t){super(document.createElement("div")),this.sliderWrapper=document.createElement("div"),this.label=document.createElement("span"),this.setParams({id:r.ID}),this.element.appendChild(this.label),this.sliderWrapper.appendChild(t),this.sliderWrapper.appendChild(e),this.element.appendChild(this.sliderWrapper),this.initWrapper()}initWrapper(){this.sliderWrapper.style.setProperty("display","flex"),this.sliderWrapper.style.setProperty("align-items","center")}initClassNames(){if(""!==this.element.className)return;const e=i.Elements.menuItem();e&&this.setClassName(e.className);const t=i.Elements.menuLabel();t&&(this.label.className=t.className)}updateSpeed(e){this.label.innerText=`Speed: ${e.toFixed(1)}`}mount(){this.initClassNames();const e=i.Elements.menuSpeedItem();if(console.log(e),e&&e.style.setProperty("display","none"),i.Elements.ref(`#${r.ID}`))return!0;const t=i.Elements.menu();return!!t&&(t.appendChild(this.element),!0)}}t.MenuSpeedItem=r,r.ID="vis-menu-speed-item"},920:(e,t,s)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.Player=void 0;const n=s(938);t.Player=class{constructor(e){this.setSpeed(e)}setSpeed(e){const t=n.Elements.video();null!==t&&(t.playbackRate=e)}}},220:(e,t,s)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.Slider=void 0;const n=s(807);class i extends n.default{constructor(e){super(document.createElement("input")),this.setParams({type:"range",min:i.MIN,max:i.MAX,step:.05,value:e.toString()}),this.setClassName("vis-slider"),this.setStyle({background:"#ffffff66",width:"calc(100% - 30px)",height:"6px",outline:"none",margin:"0 10px",padding:"0","border-radius":"3px"}),this.addStyle("\n            .vis-slider {\n              -webkit-appearance: none;\n            }\n            \n            .vis-slider::-webkit-slider-thumb {\n              -webkit-appearance: none;\n              appearance: none;\n              width: 10px;\n              height: 10px;\n              border-radius: 5px;\n              background: var(--color-two);\n              cursor: pointer;\n            }\n            \n            .vis-slider::-moz-range-thumb {\n              width: 10px;\n              height: 10px;\n              border-radius: 5px;\n              background: var(--color-two);\n              cursor: pointer;\n            }")}setSpeed(e){this.element.value=e.toString()}getSpeed(){return parseFloat(this.element.value)}}t.Slider=i,i.MIN=.5,i.MAX=4},645:(e,t,s)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.AppController=void 0;const n=s(220),i=s(953),r=s(353),l=s(176),d=s(920),a=s(596),o=s(693),c=s(938);t.AppController=class{constructor(){this.rememberSpeed=new r.Store("vis-remember-speed"),this.speed=new r.Store("vis-speed");const e=this.getSpeed();this.player=new d.Player(e),this.menuSlider=new n.Slider(e),this.dockSlider=new n.Slider(e),this.menuCheckbox=new i.Checkbox(this.rememberSpeed.get(!1)),this.dockCheckbox=new i.Checkbox(this.rememberSpeed.get(!1)),this.dockItem=new o.DockItem(this.dockSlider.getElement(),this.dockCheckbox.getElement()),this.menuSpeedItem=new l.MenuSpeedItem(this.menuSlider.getElement(),this.menuCheckbox.getElement()),this.observer=new a.Observer,this.initEvents(),this.updateSpeed(e)}initEvents(){this.dockSlider.event("change",this.sliderChangeEvent.bind(this)),this.menuSlider.event("change",this.sliderChangeEvent.bind(this)),this.dockSlider.event("input",this.sliderChangeEvent.bind(this)),this.menuSlider.event("input",this.sliderChangeEvent.bind(this)),this.dockSlider.event("wheel",this.sliderWheelEvent.bind(this)),this.menuSlider.event("wheel",this.sliderWheelEvent.bind(this)),this.dockCheckbox.event("change",this.checkboxEvent.bind(this)),this.menuCheckbox.event("change",this.checkboxEvent.bind(this))}sliderChangeEvent(e){this.updateSpeed(parseFloat(e.target.value))}checkboxEvent(e){const t=e.target.checked;this.rememberSpeed.set(t),this.dockCheckbox.setValue(t),this.menuCheckbox.setValue(t)}sliderWheelEvent(e){const t=parseFloat(e.target.value),s=e.deltaY>0?-.05:.05,i=Math.max(n.Slider.MIN,Math.min(t+s,n.Slider.MAX));t!=i&&this.updateSpeed(i),e.preventDefault()}updateSpeed(e){this.speed.set(e),this.player.setSpeed(e),this.menuSpeedItem.updateSpeed(e),this.dockItem.updateSpeed(e),this.dockSlider.setSpeed(e),this.menuSlider.setSpeed(e)}getSpeed(){return this.rememberSpeed.get(!1)?this.speed.get(1):1}mutationCallback(){this.initApp()}initApp(){this.player.setSpeed(this.getSpeed());const e=c.Elements.video();return e&&this.observer.start(e,this.mutationCallback.bind(this)),this.menuSpeedItem.mount(),this.dockItem.mount()}}},596:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.Observer=void 0;t.Observer=class{stop(){this.observer&&this.observer.disconnect()}start(e,t){this.stop(),this.observer=new MutationObserver(t),this.observer.observe(e,{childList:!0,subtree:!0,attributes:!0,characterData:!0,attributeOldValue:!0,characterDataOldValue:!0})}}},353:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.Store=void 0;t.Store=class{constructor(e){this.key=e}encode(e){return JSON.stringify(e)}decode(e){return JSON.parse(e)}set(e){try{localStorage.setItem(this.key,this.encode(e))}catch(e){return}}get(e=void 0){try{const t=localStorage.getItem(this.key);return t?this.decode(t):e}catch(t){return e}}remove(){localStorage.removeItem(this.key)}}}},t={};function s(n){var i=t[n];if(void 0!==i)return i.exports;var r=t[n]={exports:{}};return e[n](r,r.exports,s),r.exports}(()=>{const e=new(s(645).AppController);function t(){e.initApp()||window.setTimeout(t,2e3)}document.addEventListener("spfdone",t),t()})()})();
+
+(() => {
+    'use strict';
+    var _modules = {
+        'Checkbox.ts': (_unused_module, exports, _require) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.Checkbox = void 0;
+            const Component_1 = _require('Component.ts');
+            class Checkbox extends Component_1.default {
+                constructor(checked) {
+                    super('input', {
+                        styles: {
+                            accentColor: 'var(--color-two)',
+                            appearance: 'auto',
+                            width: '16px',
+                            height: '16px',
+                            margin: '0',
+                            padding: '0',
+                        },
+                        attrs: {
+                            type: 'checkbox',
+                            title: 'Remember speed',
+                            checked: checked,
+                        },
+                    });
+                }
+                initEvents(onChange) {
+                    this.event('change', () => onChange(this.element.checked));
+                }
+                setValue(checked) {
+                    this.element.checked = checked;
+                }
+            }
+            exports.Checkbox = Checkbox;
+        },
+
+        'Component.ts': (_unused_module, exports, _require) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            const Dom_1 = _require('Dom.ts');
+            class Component {
+                constructor(tag, props = {}) {
+                    this.element = Dom_1.Dom.create({tag, ...props});
+                }
+                addClassName(...className) {
+                    this.element.classList.add(...className);
+                }
+                event(event, callback) {
+                    this.element.addEventListener(event, callback);
+                }
+                getElement() {
+                    return this.element;
+                }
+                mount(parent) {
+                    parent.appendChild(this.element);
+                }
+            }
+            exports['default'] = Component;
+        },
+
+        'Dom.ts': (_unused_module, exports) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.Dom = void 0;
+            class Dom {
+                static appendChildren(element, children) {
+                    if (typeof children === 'string') {
+                        element.innerHTML = children;
+                    } else if (children) {
+                        element.append(
+                            ...Dom.array(children).map((item) => {
+                                if (
+                                    item instanceof HTMLElement ||
+                                    item instanceof SVGElement
+                                ) {
+                                    return item;
+                                }
+                                if (Dom.isSvgItem(item)) {
+                                    return Dom.createSvg(item);
+                                }
+                                return Dom.create(item);
+                            }),
+                        );
+                    }
+                }
+                static create(data) {
+                    const element = document.createElement(data.tag);
+                    Dom.appendChildren(element, data.children);
+                    Dom.applyClass(element, data.classes);
+                    Dom.applyAttrs(element, data.attrs);
+                    Dom.applyEvents(element, data.events);
+                    Dom.applyStyles(element, data.styles);
+                    return element;
+                }
+                static element(tag, classes, children) {
+                    return Dom.create({tag, classes, children});
+                }
+                static createSvg(data) {
+                    const element = document.createElementNS(
+                        'http://www.w3.org/2000/svg',
+                        data.tag,
+                    );
+                    Dom.appendChildren(element, data.children);
+                    Dom.applyClass(element, data.classes);
+                    Dom.applyAttrs(element, data.attrs);
+                    Dom.applyEvents(element, data.events);
+                    Dom.applyStyles(element, data.styles);
+                    return element;
+                }
+                static array(element) {
+                    return Array.isArray(element) ? element : [element];
+                }
+                static elementSvg(tag, classes, children) {
+                    return Dom.createSvg({tag, classes, children});
+                }
+                static applyAttrs(element, attrs) {
+                    if (attrs) {
+                        Object.entries(attrs).forEach(([key, value]) => {
+                            if (value === undefined || value === false) {
+                                element.removeAttribute(key);
+                            } else {
+                                element.setAttribute(key, `${value}`);
+                            }
+                        });
+                    }
+                }
+                static applyStyles(element, styles) {
+                    if (styles) {
+                        Object.entries(styles).forEach(([key, value]) => {
+                            const name = key.replace(
+                                /[A-Z]/g,
+                                (c) => `-${c.toLowerCase()}`,
+                            );
+                            element.style.setProperty(name, value);
+                        });
+                    }
+                }
+                static applyEvents(element, events) {
+                    if (events) {
+                        Object.entries(events).forEach(([name, callback]) => {
+                            element.addEventListener(name, callback);
+                        });
+                    }
+                }
+                static applyClass(element, classes) {
+                    if (classes) {
+                        element.setAttribute('class', classes);
+                    }
+                }
+                static isSvgItem(item) {
+                    try {
+                        const element = document.createElementNS(
+                            'http://www.w3.org/2000/svg',
+                            item.tag,
+                        );
+                        return element.namespaceURI === 'http://www.w3.org/2000/svg';
+                    } catch (error) {
+                        return false;
+                    }
+                }
+            }
+            exports.Dom = Dom;
+        },
+
+        'Elements.ts': (_unused_module, exports, _require) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.Elements = void 0;
+            const MenuItem_1 = _require('MenuItem.ts');
+            class Elements {
+                static ref(selector) {
+                    return document.querySelector(selector);
+                }
+                static menu() {
+                    return Elements.ref(
+                        '[data-menu="prefs"] [class^=Menu_module_menuPanel]',
+                    );
+                }
+                static menuItem() {
+                    return Elements.ref(
+                        '[data-menu="prefs"] [class^=Menu_module_menuPanel] [class^=MenuOption_module_option]',
+                    );
+                }
+                static menuSpeedItem() {
+                    const optionItems = [
+                        ...document.querySelectorAll(
+                            '[data-menu="prefs"] [class^=MenuOption_module_option]',
+                        ),
+                    ];
+                    const speedLabels = [
+                        'Speed',
+                        'Velocidad',
+                        'Geschwindigkeit',
+                        'Vitesse',
+                        'Velocidade',
+                        'スピード',
+                        '속도',
+                    ];
+                    return optionItems.find(
+                        (e) =>
+                            e.id !== MenuItem_1.MenuItem.ID &&
+                            speedLabels.some((text) => e.innerText.includes(text)),
+                    );
+                }
+                static menuSpeedLabel() {
+                    var _a;
+                    return (_a = Elements.menuSpeedItem()) === null || _a === void 0
+                        ? void 0
+                        : _a.querySelector('span');
+                }
+                static video() {
+                    return Elements.ref('.vp-video video');
+                }
+            }
+            exports.Elements = Elements;
+        },
+
+        'Label.ts': (_unused_module, exports, _require) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.Label = void 0;
+            const Component_1 = _require('Component.ts');
+            const Elements_1 = _require('Elements.ts');
+            class Label extends Component_1.default {
+                constructor() {
+                    super('span');
+                    this.label = 'Speed';
+                    this.speed = '1.0';
+                }
+                init() {
+                    const originalItemLabel = Elements_1.Elements.menuSpeedLabel();
+                    if (originalItemLabel) {
+                        this.label = originalItemLabel.innerText;
+                        this.element.className = originalItemLabel.className;
+                        this.render();
+                    }
+                }
+                setSpeed(speed) {
+                    this.speed = speed.toFixed(1);
+                    this.render();
+                }
+                render() {
+                    this.element.innerText = `${this.label}: ${this.speed}`;
+                }
+            }
+            exports.Label = Label;
+        },
+
+        'MenuItem.ts': (_unused_module, exports, _require) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.MenuItem = void 0;
+            const Component_1 = _require('Component.ts');
+            const Elements_1 = _require('Elements.ts');
+            const Slider_1 = _require('Slider.ts');
+            const Checkbox_1 = _require('Checkbox.ts');
+            const Label_1 = _require('Label.ts');
+            const Dom_1 = _require('Dom.ts');
+            class MenuItem extends Component_1.default {
+                constructor(setSpeed, setRemember) {
+                    super('div', {attrs: {id: MenuItem.ID}});
+                    this.checkbox = new Checkbox_1.Checkbox(false);
+                    this.slider = new Slider_1.Slider();
+                    this.label = new Label_1.Label();
+                    this.wrapper = Dom_1.Dom.create({
+                        tag: 'div',
+                        styles: {
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                    });
+                    this.wrapper.append(
+                        this.checkbox.getElement(),
+                        this.slider.getElement(),
+                    );
+                    this.element.append(this.label.getElement(), this.wrapper);
+                    this.slider.initEvents(setSpeed);
+                    this.checkbox.initEvents(setRemember);
+                }
+                setSpeed(speed) {
+                    this.slider.setSpeed(speed);
+                    this.label.setSpeed(speed);
+                }
+                setRemember(state) {
+                    this.checkbox.setValue(state);
+                }
+                mountItem() {
+                    var _a, _b;
+                    const originalSpeedItem = Elements_1.Elements.menuSpeedItem();
+                    if (!originalSpeedItem) {
+                        (_a = this.element.parentNode) === null || _a === void 0
+                            ? void 0
+                            : _a.removeChild(this.element);
+                        return;
+                    }
+                    originalSpeedItem.style.setProperty('display', 'none');
+                    if (!this.element.parentNode) {
+                        originalSpeedItem.after(this.element);
+                        this.label.init();
+                        this.element.className =
+                            ((_b = Elements_1.Elements.menuItem()) === null ||
+                            _b === void 0
+                                ? void 0
+                                : _b.className) || this.element.className;
+                    }
+                }
+            }
+            exports.MenuItem = MenuItem;
+            MenuItem.ID = 'vis-menu-speed-item';
+        },
+
+        'Player.ts': (_unused_module, exports, _require) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.Player = void 0;
+            const Elements_1 = _require('Elements.ts');
+            class Player {
+                constructor() {
+                    this.player = null;
+                    this.speed = 1;
+                }
+                getPlayer() {
+                    if (!this.player) {
+                        this.player = Elements_1.Elements.video();
+                        if (this.player) {
+                            this.initEvent(this.player);
+                        }
+                    }
+                    return this.player;
+                }
+                initEvent(player) {
+                    if (!player.getAttribute(Player.READY_FLAG)) {
+                        player.addEventListener(
+                            'ratechange',
+                            this.checkPlayerSpeed.bind(this),
+                        );
+                        player.setAttribute(Player.READY_FLAG, 'ready');
+                    }
+                }
+                checkPlayerSpeed() {
+                    const player = this.getPlayer();
+                    if (
+                        player &&
+                        Math.abs(player.playbackRate - this.speed) > 0.01
+                    ) {
+                        player.playbackRate = this.speed;
+                        setTimeout(this.checkPlayerSpeed.bind(this), 200);
+                    }
+                }
+                setSpeed(speed) {
+                    this.speed = speed;
+                    const player = this.getPlayer();
+                    if (player !== null) {
+                        player.playbackRate = speed;
+                    }
+                }
+            }
+            exports.Player = Player;
+            Player.READY_FLAG = 'vis-listener';
+        },
+
+        'Slider.ts': (_unused_module, exports, _require) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.Slider = void 0;
+            const Component_1 = _require('Component.ts');
+            class Slider extends Component_1.default {
+                constructor() {
+                    super('input', {
+                        classes: 'vis-slider',
+                        attrs: {
+                            type: 'range',
+                            min: Slider.MIN_VALUE,
+                            max: Slider.MAX_VALUE,
+                            step: 0.05,
+                        },
+                        styles: {
+                            background: '#ffffff66',
+                            width: 'calc(100% - 30px)',
+                            height: '6px',
+                            outline: 'none',
+                            margin: '0 10px',
+                            padding: '0',
+                            borderRadius: '3px',
+                        },
+                    });
+                }
+                initEvents(onChange) {
+                    this.event('change', () => onChange(this.getSpeed()));
+                    this.event('input', () => onChange(this.getSpeed()));
+                    this.event('wheel', (event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        const diff = event.deltaY > 0 ? -0.05 : 0.05;
+                        onChange(this.getSpeed() + diff);
+                        return false;
+                    });
+                }
+                setSpeed(speed) {
+                    this.element.value = speed.toString();
+                }
+                getSpeed() {
+                    return parseFloat(this.element.value);
+                }
+            }
+            exports.Slider = Slider;
+            Slider.MIN_VALUE = 0.5;
+            Slider.MAX_VALUE = 4;
+        },
+
+        'AppController.ts': (_unused_module, exports, _require) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.AppController = void 0;
+            const Store_1 = _require('Store.ts');
+            const MenuItem_1 = _require('MenuItem.ts');
+            const Player_1 = _require('Player.ts');
+            const Observer_1 = _require('Observer.ts');
+            const Elements_1 = _require('Elements.ts');
+            class AppController {
+                constructor() {
+                    this.player = new Player_1.Player();
+                    this.videoObserver = new Observer_1.Observer();
+                    this.menuObserver = new Observer_1.Observer();
+                    this.rememberSpeed = new Store_1.Store('vis-remember-speed');
+                    this.speed = new Store_1.Store('vis-speed');
+                    this.item = new MenuItem_1.MenuItem(
+                        this.setSpeed.bind(this),
+                        this.setRemember.bind(this),
+                    );
+                    this.setSpeed(this.getSpeed());
+                    this.setRemember(this.rememberSpeed.get(false));
+                }
+                setSpeed(speed) {
+                    this.speed.set(speed);
+                    this.player.setSpeed(speed);
+                    this.item.setSpeed(speed);
+                }
+                setRemember(state) {
+                    this.rememberSpeed.set(state);
+                    this.item.setRemember(state);
+                }
+                getSpeed() {
+                    return this.rememberSpeed.get(false) ? this.speed.get(1) : 1;
+                }
+                mount() {
+                    this.item.mountItem();
+                }
+                init() {
+                    const video = Elements_1.Elements.video();
+                    const menu = Elements_1.Elements.menu();
+                    if (video && menu) {
+                        this.videoObserver.start(video, this.mount.bind(this));
+                        this.menuObserver.start(menu, this.mount.bind(this));
+                        this.mount();
+                        this.setSpeed(this.getSpeed());
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            exports.AppController = AppController;
+        },
+
+        'Observer.ts': (_unused_module, exports) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.Observer = void 0;
+            class Observer {
+                stop() {
+                    if (this.observer) {
+                        this.observer.disconnect();
+                    }
+                }
+                start(element, callback) {
+                    this.stop();
+                    this.observer = new MutationObserver(callback);
+                    this.observer.observe(element, {
+                        childList: true,
+                        subtree: true,
+                        attributes: true,
+                        characterData: true,
+                        attributeOldValue: true,
+                        characterDataOldValue: true,
+                    });
+                }
+            }
+            exports.Observer = Observer;
+        },
+
+        'Store.ts': (_unused_module, exports) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.Store = void 0;
+            class Store {
+                constructor(key) {
+                    this.key = key;
+                }
+                encode(val) {
+                    return JSON.stringify(val);
+                }
+                decode(val) {
+                    return JSON.parse(val);
+                }
+                set(value) {
+                    try {
+                        localStorage.setItem(this.key, this.encode(value));
+                    } catch (e) {
+                        return;
+                    }
+                }
+                get(defaultValue = undefined) {
+                    try {
+                        const data = localStorage.getItem(this.key);
+                        if (data) {
+                            return this.decode(data);
+                        }
+                        return defaultValue;
+                    } catch (e) {
+                        return defaultValue;
+                    }
+                }
+                remove() {
+                    localStorage.removeItem(this.key);
+                }
+            }
+            exports.Store = Store;
+        },
+    };
+
+    var _module_cache = {};
+
+    function _require(moduleId) {
+        var cachedModule = _module_cache[moduleId];
+        if (cachedModule !== undefined) {
+            return cachedModule.exports;
+        }
+
+        var module = (_module_cache[moduleId] = {
+            exports: {},
+        });
+
+        _modules[moduleId](module, module.exports, _require);
+
+        return module.exports;
+    }
+
+    var _exports = {};
+
+    (() => {
+        var exports = _exports;
+        var _unused_export;
+
+        _unused_export = {value: true};
+        const AppController_1 = _require('AppController.ts');
+        const app = new AppController_1.AppController();
+        let attempt = 0;
+        function init() {
+            if (attempt <= 4 && !app.init()) {
+                attempt++;
+                window.setTimeout(init, 2000);
+            }
+        }
+        init();
+    })();
+})();

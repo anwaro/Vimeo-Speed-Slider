@@ -1,4 +1,4 @@
-import {MenuSpeedItem} from './MenuSpeedItem';
+import {MenuItem} from './MenuItem';
 
 export class Elements {
     static ref<T extends HTMLElement>(selector: string): T | null {
@@ -17,32 +17,31 @@ export class Elements {
         );
     }
 
-    static menuLabel() {
-        return Elements.menuItem()?.querySelector<HTMLDivElement>('span');
-    }
-
     static menuSpeedItem() {
-        return [
+        const optionItems = [
             ...document.querySelectorAll<HTMLDivElement>(
                 '[data-menu="prefs"] [class^=MenuOption_module_option]',
             ),
-        ].find((e) => /Speed/.test(e.innerText) && e.id !== MenuSpeedItem.ID);
+        ];
+        const speedLabels = [
+            'Speed',
+            'Velocidad',
+            'Geschwindigkeit',
+            'Vitesse',
+            'Velocidade',
+            'スピード',
+            '속도',
+        ];
+
+        return optionItems.find(
+            (e) =>
+                e.id !== MenuItem.ID &&
+                speedLabels.some((text) => e.innerText.includes(text)),
+        );
     }
 
-    static dock() {
-        return Elements.ref<HTMLDivElement>('.vp-sidedock');
-    }
-
-    static dockItem() {
-        return Elements.ref<HTMLDivElement>('.vp-sidedock>div');
-    }
-
-    static dockItemButton() {
-        return Elements.ref<HTMLButtonElement>('.vp-sidedock>div>button');
-    }
-
-    static dockItemLabel() {
-        return Elements.ref<HTMLLabelElement>('.vp-sidedock>div>label');
+    static menuSpeedLabel() {
+        return Elements.menuSpeedItem()?.querySelector<HTMLSpanElement>('span');
     }
 
     static video() {

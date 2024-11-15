@@ -1,53 +1,30 @@
-export default class Component<E extends HTMLElement> {
-    protected element: E;
+import {Dom, HtmlData} from './Dom';
 
-    constructor(element: E) {
-        this.element = element;
+export default class Component<K extends keyof HTMLElementTagNameMap> {
+    protected element: HTMLElementTagNameMap[K];
+
+    constructor(tag: K, props: Omit<HtmlData<K>, 'tag'> = {}) {
+        this.element = Dom.create({tag, ...props});
     }
 
-    addStyle(styles: string) {
-        const id = 'vis-style';
-        const style =
-            document.getElementById(id) ||
-            (function () {
-                const style = document.createElement('style');
-                style.id = id;
-                document.head.appendChild(style);
-                return style;
-            })();
-        style.innerHTML += styles;
-    }
-
-    setStyle(styles: Record<string, string | number>) {
-        Object.entries(styles).forEach(([key, value]) => {
-            this.element.style.setProperty(key, `${value}`);
-        });
-    }
-
-    setParams(params: Record<string, string | number | boolean | undefined>) {
-        Object.entries(params).forEach(([key, value]) => {
-            let _value = `${value}`;
-
-            if (value === undefined || value === false) {
-                _value = '';
-            }
-
-            this.element.setAttribute(key, _value);
-        });
-    }
-
-    setClassName(clasName: string) {
-        this.element.className = clasName;
+    addClassName(...className: string[]) {
+        this.element.classList.add(...className);
     }
 
     event<K extends keyof HTMLElementEventMap>(
         event: K,
         callback: (this: HTMLElement, ev: HTMLElementEventMap[K]) => void,
     ) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         this.element.addEventListener(event, callback);
     }
 
     getElement() {
         return this.element;
+    }
+
+    mount(parent: HTMLElement) {
+        parent.appendChild(this.element);
     }
 }
