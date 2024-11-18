@@ -1,4 +1,5 @@
 import Component from './Component';
+import {GlobalStyle} from '../controllers/GlobalStyle';
 
 export class Slider extends Component<'input'> {
     static MIN_VALUE = 0.5;
@@ -24,28 +25,30 @@ export class Slider extends Component<'input'> {
             },
         });
 
-        // this.addStyle(`
-        //     .vis-slider {
-        //       -webkit-appearance: none;
-        //     }
-        //
-        //     .vis-slider::-webkit-slider-thumb {
-        //       -webkit-appearance: none;
-        //       appearance: none;
-        //       width: 10px;
-        //       height: 10px;
-        //       border-radius: 5px;
-        //       background: var(--color-two);
-        //       cursor: pointer;
-        //     }
-        //
-        //     .vis-slider::-moz-range-thumb {
-        //       width: 10px;
-        //       height: 10px;
-        //       border-radius: 5px;
-        //       background: var(--color-two);
-        //       cursor: pointer;
-        //     }`);
+        GlobalStyle.addStyle(
+            'vis-slider',
+            `.vis-slider {
+              -webkit-appearance: none;
+            }
+
+            .vis-slider::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 10px;
+              height: 10px;
+              border-radius: 5px;
+              background: var(--color-two);
+              cursor: pointer;
+            }
+
+            .vis-slider::-moz-range-thumb {
+              width: 10px;
+              height: 10px;
+              border-radius: 5px;
+              background: var(--color-two);
+              cursor: pointer;
+            }`,
+        );
     }
 
     initEvents(onChange: (speed: number) => void) {

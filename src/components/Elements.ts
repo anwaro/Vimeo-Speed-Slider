@@ -17,13 +17,22 @@ export class Elements {
         );
     }
 
-    static menuSpeedItem() {
+    static menuItemWithLabel(labels: string[]) {
         const optionItems = [
             ...document.querySelectorAll<HTMLDivElement>(
                 '[data-menu="prefs"] [class^=MenuOption_module_option]',
             ),
         ];
-        const speedLabels = [
+
+        return optionItems.find(
+            (e) =>
+                e.id !== MenuItem.ID &&
+                labels.some((text) => e.innerText.includes(text)),
+        );
+    }
+
+    static menuSpeedItem() {
+        return Elements.menuItemWithLabel([
             'Speed',
             'Velocidad',
             'Geschwindigkeit',
@@ -31,13 +40,19 @@ export class Elements {
             'Velocidade',
             'スピード',
             '속도',
-        ];
+        ]);
+    }
 
-        return optionItems.find(
-            (e) =>
-                e.id !== MenuItem.ID &&
-                speedLabels.some((text) => e.innerText.includes(text)),
-        );
+    static menuQualityItem() {
+        return Elements.menuItemWithLabel([
+            'Quality',
+            'Calidad',
+            'Qualität',
+            'Qualité',
+            'Qualidade',
+            '画質',
+            '고화질',
+        ]);
     }
 
     static menuSpeedLabel() {

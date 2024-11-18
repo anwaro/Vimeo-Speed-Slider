@@ -41,14 +41,19 @@ export class MenuItem extends Component<'div'> {
 
     mountItem() {
         const originalSpeedItem = Elements.menuSpeedItem();
-        if (!originalSpeedItem) {
+        const originalQualityItem = Elements.menuQualityItem();
+        if (!originalSpeedItem && !originalQualityItem) {
             this.element.parentNode?.removeChild(this.element);
             return;
         }
 
-        originalSpeedItem.style.setProperty('display', 'none');
+        originalSpeedItem?.style.setProperty('display', 'none');
         if (!this.element.parentNode) {
-            originalSpeedItem.after(this.element);
+            if (originalSpeedItem) {
+                originalSpeedItem.after(this.element);
+            } else if (originalQualityItem) {
+                originalQualityItem.after(this.element);
+            }
 
             this.label.init();
             this.element.className =

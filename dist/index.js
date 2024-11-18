@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Vimeo Player Speed Slider
 // @namespace    vimeo_player_speed_slider
-// @version      1.0.1
+// @version      1.1.0
 // @description  Add Speed Slider to Vimeo Player Settings
 // @author       Łukasz
 // @include      https://*.vimeo.com/*
@@ -189,13 +189,20 @@
                         '[data-menu="prefs"] [class^=Menu_module_menuPanel] [class^=MenuOption_module_option]',
                     );
                 }
-                static menuSpeedItem() {
+                static menuItemWithLabel(labels) {
                     const optionItems = [
                         ...document.querySelectorAll(
                             '[data-menu="prefs"] [class^=MenuOption_module_option]',
                         ),
                     ];
-                    const speedLabels = [
+                    return optionItems.find(
+                        (e) =>
+                            e.id !== MenuItem_1.MenuItem.ID &&
+                            labels.some((text) => e.innerText.includes(text)),
+                    );
+                }
+                static menuSpeedItem() {
+                    return Elements.menuItemWithLabel([
                         'Speed',
                         'Velocidad',
                         'Geschwindigkeit',
@@ -203,12 +210,18 @@
                         'Velocidade',
                         'スピード',
                         '속도',
-                    ];
-                    return optionItems.find(
-                        (e) =>
-                            e.id !== MenuItem_1.MenuItem.ID &&
-                            speedLabels.some((text) => e.innerText.includes(text)),
-                    );
+                    ]);
+                }
+                static menuQualityItem() {
+                    return Elements.menuItemWithLabel([
+                        'Quality',
+                        'Calidad',
+                        'Qualität',
+                        'Qualité',
+                        'Qualidade',
+                        '画質',
+                        '고화질',
+                    ]);
                 }
                 static menuSpeedLabel() {
                     var _a;
@@ -293,15 +306,23 @@
                 mountItem() {
                     var _a, _b;
                     const originalSpeedItem = Elements_1.Elements.menuSpeedItem();
-                    if (!originalSpeedItem) {
+                    const originalQualityItem =
+                        Elements_1.Elements.menuQualityItem();
+                    if (!originalSpeedItem && !originalQualityItem) {
                         (_a = this.element.parentNode) === null || _a === void 0
                             ? void 0
                             : _a.removeChild(this.element);
                         return;
                     }
-                    originalSpeedItem.style.setProperty('display', 'none');
+                    originalSpeedItem === null || originalSpeedItem === void 0
+                        ? void 0
+                        : originalSpeedItem.style.setProperty('display', 'none');
                     if (!this.element.parentNode) {
-                        originalSpeedItem.after(this.element);
+                        if (originalSpeedItem) {
+                            originalSpeedItem.after(this.element);
+                        } else if (originalQualityItem) {
+                            originalQualityItem.after(this.element);
+                        }
                         this.label.init();
                         this.element.className =
                             ((_b = Elements_1.Elements.menuItem()) === null ||
@@ -368,6 +389,7 @@
             Object.defineProperty(exports, '__esModule', {value: true});
             exports.Slider = void 0;
             const Component_1 = _require('Component.ts');
+            const GlobalStyle_1 = _require('GlobalStyle.ts');
             class Slider extends Component_1.default {
                 constructor() {
                     super('input', {
@@ -388,6 +410,30 @@
                             borderRadius: '3px',
                         },
                     });
+                    GlobalStyle_1.GlobalStyle.addStyle(
+                        'vis-slider',
+                        `.vis-slider {
+              -webkit-appearance: none;
+            }
+
+            .vis-slider::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 10px;
+              height: 10px;
+              border-radius: 5px;
+              background: var(--color-two);
+              cursor: pointer;
+            }
+
+            .vis-slider::-moz-range-thumb {
+              width: 10px;
+              height: 10px;
+              border-radius: 5px;
+              background: var(--color-two);
+              cursor: pointer;
+            }`,
+                    );
                 }
                 initEvents(onChange) {
                     this.event('change', () => onChange(this.getSpeed()));
@@ -463,6 +509,25 @@
                 }
             }
             exports.AppController = AppController;
+        },
+
+        'GlobalStyle.ts': (_unused_module, exports) => {
+            Object.defineProperty(exports, '__esModule', {value: true});
+            exports.GlobalStyle = void 0;
+            class GlobalStyle {
+                static addStyle(key, styles) {
+                    const style =
+                        document.getElementById(key) ||
+                        (function () {
+                            const style = document.createElement('style');
+                            style.id = key;
+                            document.head.appendChild(style);
+                            return style;
+                        })();
+                    style.textContent += styles;
+                }
+            }
+            exports.GlobalStyle = GlobalStyle;
         },
 
         'Observer.ts': (_unused_module, exports) => {
