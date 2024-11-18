@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Vimeo Player Speed Slider
 // @namespace    vimeo_player_speed_slider
-// @version      1.1.1
+// @version      1.1.2
 // @description  Add Speed Slider to Vimeo Player Settings
 // @author       Łukasz
 // @include      https://*.vimeo.com/*
@@ -189,6 +189,12 @@
                         '[data-menu="prefs"] [class^=Menu_module_menuPanel] [class^=MenuOption_module_option]',
                     );
                 }
+                static menuItemLabel() {
+                    var _a;
+                    return (_a = Elements.menuItem()) === null || _a === void 0
+                        ? void 0
+                        : _a.querySelector('span');
+                }
                 static menuItemWithLabel(labels) {
                     const optionItems = [
                         ...document.querySelectorAll(
@@ -252,8 +258,12 @@
                     if (originalItemLabel) {
                         this.label = originalItemLabel.innerText;
                         this.element.className = originalItemLabel.className;
-                        this.render();
                     }
+                    const itemLabel = Elements_1.Elements.menuItemLabel();
+                    if (itemLabel) {
+                        this.element.className = itemLabel.className;
+                    }
+                    this.render();
                 }
                 setSpeed(speed) {
                     this.speed = speed.toFixed(1);
@@ -408,6 +418,7 @@
                             margin: '0 10px',
                             padding: '0',
                             borderRadius: '3px',
+                            minWidth: '150px',
                         },
                     });
                     GlobalStyle_1.GlobalStyle.addStyle(

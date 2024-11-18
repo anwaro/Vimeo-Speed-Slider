@@ -14,8 +14,12 @@ export class Label extends Component<'span'> {
         if (originalItemLabel) {
             this.label = originalItemLabel.innerText;
             this.element.className = originalItemLabel.className;
-            this.render();
         }
+        const itemLabel = Elements.menuItemLabel();
+        if (itemLabel) {
+            this.element.className = itemLabel.className;
+        }
+        this.render();
     }
 
     setSpeed(speed: number) {

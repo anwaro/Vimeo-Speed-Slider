@@ -22,6 +22,7 @@ export class Slider extends Component<'input'> {
                 margin: '0 10px',
                 padding: '0',
                 borderRadius: '3px',
+                minWidth: '150px',
             },
         });
 

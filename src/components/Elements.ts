@@ -17,6 +17,10 @@ export class Elements {
         );
     }
 
+    static menuItemLabel() {
+        return Elements.menuItem()?.querySelector<HTMLSpanElement>('span');
+    }
+
     static menuItemWithLabel(labels: string[]) {
         const optionItems = [
             ...document.querySelectorAll<HTMLDivElement>(
