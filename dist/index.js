@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Vimeo Player Speed Slider
 // @namespace    vimeo_player_speed_slider
-// @version      1.1.0
+// @version      1.1.1
 // @description  Add Speed Slider to Vimeo Player Settings
 // @author       Łukasz
 // @include      https://*.vimeo.com/*
@@ -412,26 +412,20 @@
                     });
                     GlobalStyle_1.GlobalStyle.addStyle(
                         'vis-slider',
-                        `.vis-slider {
+                        `input[type='range'].vis-slider {
               -webkit-appearance: none;
             }
 
-            .vis-slider::-webkit-slider-thumb {
+            input[type='range'].vis-slider::-moz-range-thumb ,
+            input[type='range'].vis-slider::-webkit-slider-thumb {
               -webkit-appearance: none;
               appearance: none;
-              width: 10px;
-              height: 10px;
-              border-radius: 5px;
-              background: var(--color-two);
+              width: 12px;
+              height: 12px;
+              border-radius: 6px;
+              background: #fff;
               cursor: pointer;
-            }
-
-            .vis-slider::-moz-range-thumb {
-              width: 10px;
-              height: 10px;
-              border-radius: 5px;
-              background: var(--color-two);
-              cursor: pointer;
+              margin-top: -2px;
             }`,
                     );
                 }
@@ -447,10 +441,22 @@
                     });
                 }
                 setSpeed(speed) {
+                    this.updateBg(speed);
                     this.element.value = speed.toString();
                 }
                 getSpeed() {
                     return parseFloat(this.element.value);
+                }
+                updateBg(value) {
+                    const progress =
+                        ((value - Slider.MIN_VALUE) /
+                            (Slider.MAX_VALUE - Slider.MIN_VALUE)) *
+                        100;
+                    this.element.style.background =
+                        'linear-gradient(to right, COLOR1 0%, COLOR1 STEP%, COLOR2 STEP%, COLOR2 100%)'
+                            .replaceAll('COLOR1', 'var(--color-two)')
+                            .replaceAll('COLOR2', '#ffffff66')
+                            .replaceAll('STEP', progress.toFixed(1));
                 }
             }
             exports.Slider = Slider;
@@ -524,7 +530,7 @@
                             document.head.appendChild(style);
                             return style;
                         })();
-                    style.textContent += styles;
+                    style.textContent = styles;
                 }
             }
             exports.GlobalStyle = GlobalStyle;

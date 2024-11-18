@@ -8,6 +8,6 @@ export class GlobalStyle {
                 document.head.appendChild(style);
                 return style;
             })();
-        style.textContent += styles;
+        style.textContent = styles;
     }
 }

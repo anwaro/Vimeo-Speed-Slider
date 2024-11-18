@@ -9,7 +9,7 @@
     "private": false,
     "scripts": {
         "dev": " webpack --watch --progress --mode=development ",
-        "serve": "serve dist -l 6969",
+        "serve": "serve dist -l 5000",
         "build": "webpack --mode=production && eslint --fix ./dist/index.js",
         "format": "prettier --write \"src/**/*.+(js|jsx|ts|tsx|json|yml|yaml|css|md|vue)\"",
         "lint": "eslint \"src/**/*.+(js|jsx|ts|tsx)\"",
